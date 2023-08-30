@@ -4,7 +4,7 @@ from scrapper import *
 
 def convert_to_dict(HTML):
     values = HTML.find_all("td")
-    parsed_data = {}
+    parsed_data :dict = {}
 
     for i in range(0, len(values), 2):
         key = values[i].text[8:]

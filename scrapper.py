@@ -15,7 +15,7 @@ session = requests.Session()
 
 def login(data):
     response = session.post(LOGIN_URL, data=data)
-    return response.status_code == 200
+    return response.content.__contains__(b"Incorrect")
 
 
 def fetch_page(url):
@@ -42,7 +42,7 @@ def scrape_all_site(username, password, semester):
         "yt0": "Login",
     }
 
-    if not login(data):
+    if login(data):
         return "Login failed"
 
     parsed_data = {}
