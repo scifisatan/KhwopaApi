@@ -10,7 +10,12 @@ async def root():
     return {"message": "How to use this api is in the readme.md file"}
 
 
-@app.get("/{username}/{password}/{semester}")
+@app.get("/dueAmount/{username}/{password}/")
+async def fees(username, password):
+    return scrape_dueAmount(username, password)
+
+
+@app.get("/{username}/{password}/{semester}/")
 async def get_grades_semester(username: str, password: str, semester: int):
     scraped_data = scrape_all_site(username, password, semester)
 
