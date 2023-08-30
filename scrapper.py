@@ -6,8 +6,8 @@ BASE_URL = "https://www.khwopa.edu.np/mis.php"
 LOGIN_URL = f"{BASE_URL}/site/login"
 PAGE_URLS = {
     "internalMarks": f"{BASE_URL}/myrecord/intmark",
-    "first_assessment": f"{BASE_URL}/myrecord/ut",
-    "final_assessment": f"{BASE_URL}/myrecord/assessment",
+    "firstAssessment": f"{BASE_URL}/myrecord/ut",
+    "finalAssessment": f"{BASE_URL}/myrecord/assessment",
 }
 
 session = requests.Session()

@@ -34,11 +34,9 @@ async def get_grades_exam(username: str, password: str, semester: int, exam: str
         exam_data = convert_to_dict_internal(scraped_data)
     else:
         exam_data = convert_to_dict(scraped_data)
-    return {
-        f"{exam}": exam_data,
-    }
+    return exam_data
 
 
 @app.get("/dueAmount/{username}/{password}/")
-async def fees(username: str, password: str):
+async def fees(username, password):
     return scrape_dueAmount(username, password)
