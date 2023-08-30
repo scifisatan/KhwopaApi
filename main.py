@@ -19,8 +19,8 @@ async def fees(username, password):
 async def get_grades_semester(username: str, password: str, semester: int):
     scraped_data = scrape_all_site(username, password, semester)
 
-    first_assessment_data = convert_to_dict(scraped_data["first_assessment"])
-    final_assessment_data = convert_to_dict(scraped_data["final_assessment"])
+    first_assessment_data = convert_to_dict(scraped_data["firstAssessment"])
+    final_assessment_data = convert_to_dict(scraped_data["finalAssessment"])
     internal_marks_data = convert_to_dict_internal(scraped_data["internalMarks"])
 
     response_json = {
