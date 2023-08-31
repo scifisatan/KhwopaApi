@@ -9,5 +9,6 @@ class UserLoginSchema(BaseModel):
 
 
 class ExamMarks(str, Enum):
-    ASSESSMENT = "assessmentMarks"
+    FIRST_ASSESSMENT = "firstAssessment"
+    FINAL_ASSESSMENT = "finalAssessment"
     INTERNAL = "internalMarks"
