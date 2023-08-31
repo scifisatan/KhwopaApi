@@ -15,7 +15,7 @@ session = requests.Session()
 
 def login(data):
     response = session.post(LOGIN_URL, data=data)
-    return response.content.__contains__(b"Incorrect")
+    return not response.content.__contains__(b"Incorrect")
 
 
 def fetch_page(url):
@@ -86,5 +86,5 @@ def scrape_dueAmount(username, password):
     parsed_data = {}
     url = f"{BASE_URL}/myrecord/due"
     page = fetch_page(url)
-    data = page.findAll('td')[1].text[6:] #[6:] it removes NRs. 
+    data = page.findAll('td')[1].text[6:] #type:ignore #[6:] it removes NRs. 
     return {"Due Amount" : int(data[:len(data)-1])} # :len(Str)-1 it removes last \n character
