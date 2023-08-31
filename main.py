@@ -5,12 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8080",
-]
+
+origins = ["http://localhost:5173/", "http://localhost:5173", "localhost:5137","https://khwopafrontend.vercel.app/," "https://khwopafrontend.vercel.app"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -30,6 +26,7 @@ async def root():
 async def fees(username, password):
     return scrape_dueAmount(username, password)
 
+
 @app.get("/login/{username}/{password}/")
 async def checkLogin(username, password):
     data = {
@@ -39,15 +36,15 @@ async def checkLogin(username, password):
         "yt0": "Login",
     }
 
-    return {"status":"Incorrect Login Details" if login(data) else "Login Successful"}
+    return {"status": "Incorrect Login Details" if login(data) else "Login Successful"}
 
 
 @app.get("/{username}/{password}/{semester}/")
 async def get_grades_semester(username: str, password: str, semester: int):
     scraped_data = scrape_all_site(username, password, semester)
-    if type(scraped_data) == str:   
-        return {"message": f"{scraped_data}"}   
-    
+    if type(scraped_data) == str:
+        return {"message": f"{scraped_data}"}
+
     first_assessment_data = convert_to_dict(scraped_data["firstAssessment"])
     final_assessment_data = convert_to_dict(scraped_data["finalAssessment"])
     internal_marks_data = convert_to_dict_internal(scraped_data["internalMarks"])
@@ -74,6 +71,3 @@ async def get_grades_exam(username: str, password: str, semester: int, exam: str
 @app.get("/dueAmount/{username}/{password}/")
 async def fees(username, password):
     return scrape_dueAmount(username, password)
- 
-
- 
