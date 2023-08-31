@@ -3,7 +3,6 @@ from fastapi.responses import JSONResponse
 from scrapper import *
 from parse import *
 from fastapi.middleware.cors import CORSMiddleware
-
 from schemas import ExamMarks
 from deps import login_required
 
