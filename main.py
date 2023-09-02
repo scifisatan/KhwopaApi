@@ -39,7 +39,7 @@ async def checkLogin(username, password):
         "yt0": "Login",
     }
 
-    return {"status":"Login Successfu" if login(data) else "Incorrect Login Details"}
+    return {"status":"Login Successful" if login(data) else "Incorrect Login Details"}
 
 
 @app.get("/{username}/{password}/{semester}/")
