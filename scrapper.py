@@ -42,7 +42,7 @@ def scrape_all_site(username, password, semester):
         "yt0": "Login",
     }
 
-    if login(data):
+    if not login(data):
         return "Login failed"
 
     parsed_data = {}
