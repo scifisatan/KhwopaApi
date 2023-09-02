@@ -38,11 +38,15 @@ async def checkLogin(username, password):
         "LoginForm[rememberMe]": "0",
         "yt0": "Login",
     }
-
     return {"status":"Login Successful" if login(data) else "Incorrect Login Details"}
 
 
-@app.get("/{username}/{password}/{semester}/")
+@app.get("/dueAmount/{username}/{password}/")
+async def fees(username, password):
+    return scrape_dueAmount(username, password)
+
+
+@app.get("grades/{username}/{password}/{semester}/")
 async def get_grades_semester(username: str, password: str, semester: int):
     scraped_data = scrape_all_site(username, password, semester)
     if type(scraped_data) == str:   
@@ -60,8 +64,5 @@ async def get_grades_semester(username: str, password: str, semester: int):
 
     return response_json
 
-@app.get("/dueAmount/{username}/{password}/")
-async def fees(username, password):
-    return scrape_dueAmount(username, password)
 
  
