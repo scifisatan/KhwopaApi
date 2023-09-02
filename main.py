@@ -8,8 +8,12 @@ from deps import login_required
 
 app = FastAPI()
 
-
-#origins = ["http://localhost:5173/", #"http://localhost:5173", #"localhost:5137","https://khwopafrontend.vercel.app/," #"https://khwopafrontend.vercel.app"]
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+]
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,8 +30,8 @@ async def root():
 
 
 
-@app.get("/login/{username}/{password}")
-async def checkLogin(username: str, password: str):
+@app.get("/login/{username}/{password}/")
+async def checkLogin(username, password):
     data = {
         "LoginForm[username]": username,
         "LoginForm[password]": password,
@@ -35,29 +39,18 @@ async def checkLogin(username: str, password: str):
         "yt0": "Login",
     }
 
-    success: bool = login(data)
-
-    json_response = JSONResponse(
-        content={"status": "Login successful." if success else "Login failed."}
-    )
-
-    #there is bug in login function
-    if  success:
-        json_response.set_cookie(key="username", value=username, httponly=True)
-        json_response.set_cookie(key="password", value=password, httponly=True)
-
-    return json_response
+    return {"status":"Incorrect Login Details" if login(data) else "Login Successful"}
 
 
-@app.get("/grades/{semester}")
-async def get_grades_semester(semester: int, user = Depends(login_required)):
-    scraped_data = scrape_all_site(user.username, user.password, semester)
-    if type(scraped_data) == str:
-        return {"message": f"{scraped_data}"}
-
-    first_assessment_data = convert_to_dict(scraped_data["firstAssessment"])        #type:ignore
-    final_assessment_data = convert_to_dict(scraped_data["finalAssessment"])        #type:ignore
-    internal_marks_data = convert_to_dict_internal(scraped_data["internalMarks"])   #type:ignore
+@app.get("/{username}/{password}/{semester}/")
+async def get_grades_semester(username: str, password: str, semester: int):
+    scraped_data = scrape_all_site(username, password, semester)
+    if type(scraped_data) == str:   
+        return {"message": f"{scraped_data}"}   
+    
+    first_assessment_data = convert_to_dict(scraped_data["firstAssessment"])
+    final_assessment_data = convert_to_dict(scraped_data["finalAssessment"])
+    internal_marks_data = convert_to_dict_internal(scraped_data["internalMarks"])
 
     response_json = {
         "firstAssessment": first_assessment_data,
@@ -78,7 +71,8 @@ async def get_grades_exam(semester: int, exam: ExamMarks, user=Depends(login_req
     return exam_data
 
 
-@app.get("/dueAmount")
-async def fees(user=Depends(login_required)):
-    return scrape_dueAmount(user.username, user.password)
+@app.get("/dueAmount/{username}/{password}/")
+async def fees(username, password):
+ 
 
+ 
