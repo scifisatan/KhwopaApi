@@ -39,7 +39,7 @@ async def checkLogin(username, password):
         "yt0": "Login",
     }
 
-    return {"status":"Incorrect Login Details" if login(data) else "Login Successful"}
+    return {"status":"Login Successfu" if login(data) else "Incorrect Login Details"}
 
 
 @app.get("/{username}/{password}/{semester}/")
@@ -59,17 +59,6 @@ async def get_grades_semester(username: str, password: str, semester: int):
     }
 
     return response_json
-
-
-@app.get("/grades/{semester}/{exam}")
-async def get_grades_exam(semester: int, exam: ExamMarks, user=Depends(login_required)):
-    scraped_data = scrape_one_site(user.username, user.password, semester, exam.value)
-    if exam == ExamMarks.INTERNAL:
-        exam_data = convert_to_dict_internal(scraped_data)
-    else: # bug: AssessmentMarks is not actual field in website.
-        exam_data = convert_to_dict(scraped_data)
-    return exam_data
-
 
 @app.get("/dueAmount/{username}/{password}/")
 async def fees(username, password):
