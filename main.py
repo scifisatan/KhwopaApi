@@ -73,6 +73,6 @@ async def get_grades_exam(semester: int, exam: ExamMarks, user=Depends(login_req
 
 @app.get("/dueAmount/{username}/{password}/")
 async def fees(username, password):
- 
+    return scrape_dueAmount(username, password)
 
  
