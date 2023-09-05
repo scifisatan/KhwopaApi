@@ -2,15 +2,10 @@ from fastapi import FastAPI
 from scrapper import *
 from parse import *
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Depends
 
 app = FastAPI()
 
-origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8080",
-]
 
 app.add_middleware(
     CORSMiddleware,
@@ -25,18 +20,17 @@ app.add_middleware(
 async def root():
     return {"message": "How to use this api is in the readme.md file"}
 
-
-
-@app.get("/login/{username}/{password}/")
-async def checkLogin(username, password):
-    data = {
+def get_login_data(username: str, password: str):
+    return {
         "LoginForm[username]": username,
         "LoginForm[password]": password,
         "LoginForm[rememberMe]": "0",
         "yt0": "Login",
     }
-    return {"status":"Login Successful" if login(data) else "Incorrect Login Details"}
 
+@app.get("/login/{username}/{password}/")
+async def checkLogin(login_data: dict = Depends(get_login_data)):
+    return {"status":"Login Successful" if login(login_data) else "Incorrect Login Details"}
 
 @app.get("/dueAmount/{username}/{password}/")
 async def fees(username, password):
