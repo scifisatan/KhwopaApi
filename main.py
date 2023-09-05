@@ -43,7 +43,7 @@ async def fees(username, password):
     return scrape_dueAmount(username, password)
 
 
-@app.get("grades/{username}/{password}/{semester}/")
+@app.get("/grades/{username}/{password}/{semester}/")
 async def get_grades_semester(username: str, password: str, semester: int):
     scraped_data = scrape_all_site(username, password, semester)
     if type(scraped_data) == str:   
