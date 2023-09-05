@@ -1,10 +1,7 @@
-from fastapi import FastAPI, Depends
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI
 from scrapper import *
 from parse import *
 from fastapi.middleware.cors import CORSMiddleware
-from schemas import ExamMarks
-from deps import login_required
 
 app = FastAPI()
 
@@ -63,6 +60,3 @@ async def get_grades_semester(username: str, password: str, semester: int):
     }
 
     return response_json
-
-
- 
